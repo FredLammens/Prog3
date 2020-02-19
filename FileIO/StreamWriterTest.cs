@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.IO;
 
 namespace FileIO
 {
@@ -10,7 +11,18 @@ namespace FileIO
         {
         Console.WriteLine("****Fun with streamWriter / StreamReader ****\n");
             //get a streamwriter and write string data.
-        using(StreamWriter writer = File)
+            using(StreamWriter writer = File.CreateText("reminders.txt")) 
+            {
+                writer.WriteLine("1)Vuilligheid");
+                writer.WriteLine("2)Tralalal");
+                for (int i = 0; i < 10; i++)
+                {
+                    writer.Write(i + "");
+                }
+                writer.Write(writer.NewLine);
+            }
+            Console.WriteLine("Created file and wrote some thoughts...");
+            Console.ReadLine();
         }
     }
 }
