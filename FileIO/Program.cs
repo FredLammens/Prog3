@@ -7,15 +7,17 @@ namespace FileIO
         static void Main(string[] args)
         {
             Console.WriteLine("**** Fun with Directory(info) ****\n");
-            ShowWindowsDirectoryInfo();
+            DirectoryInfo dir = new DirectoryInfo(@"C:\"); // the @ is to escape the slashes
+            ShowWindowsDirectoryInfo(dir);
             Console.ReadLine();
+            DImageFiles.DisplayImageFiles();
+            Console.ReadLine();
+            FIleLookup.BiggestFile(dir);
         }
 
-        private static void ShowWindowsDirectoryInfo()
+        public static void ShowWindowsDirectoryInfo( DirectoryInfo dir)
         {
             //Dump directory information.
-            DirectoryInfo dir = new DirectoryInfo(@"C:\"); // the @ is to escape the slashes
-            DirectoryInfo[] downloadsFolder = dir.GetDirectories("*downloads*"); // zelf testen
             Console.WriteLine("**** Directory Info ****");
             Console.WriteLine("Fullname: {0}",dir.FullName);
             Console.WriteLine("Name: {0}",dir.Name);
