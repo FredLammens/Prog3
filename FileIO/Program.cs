@@ -13,6 +13,8 @@ namespace FileIO
             DImageFiles.DisplayImageFiles();
             Console.ReadLine();
             FIleLookup.BiggestFile(dir);
+            BinaryWriterTest.binaryWriterTestke();
+            BinaryWriterTest.BinaryReadertestk();
         }
 
         public static void ShowWindowsDirectoryInfo( DirectoryInfo dir)
