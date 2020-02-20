@@ -14,7 +14,7 @@ namespace Oef
             Sales sales = new Sales();//subscriber sales
             winkel.Verkoop += stock.OnVerkoop;
             winkel.Verkoop += sales.OnVerkoop;
-            winkel.VerkoopProduct(new Bestelling(ProductType.Dubbel,4,3,"wathever"));
+            winkel.VerkoopProduct(new Bestelling(ProductType.Dubbel, 4, 3, "wathever"));
             sales.Rapport();
         }
     }

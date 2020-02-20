@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OefCollecties
+﻿namespace OefCollecties
 {
-     class Vrachtship : Ship
+    class Vrachtship : Ship
     {
-       public float CargoWaarde { get; private set; }
-        public Vrachtship(float cargoWaarde ,float lengte,float breedte,string naam) : base(lengte,breedte,naam)
+        public float CargoWaarde { get; private set; }
+        public Vrachtship(float cargoWaarde, float lengte, float breedte, string naam) : base(lengte, breedte, naam)
         {
             CargoWaarde = cargoWaarde;
         }

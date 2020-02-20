@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OefCollecties
 {
@@ -10,9 +9,9 @@ namespace OefCollecties
         private SortedSet<Vloot> Haven = new SortedSet<Vloot>(new VlootComparer());
         public Rederij(string naam)
         {
-        Naam = naam;
+            Naam = naam;
         }
-        public void ToonVloten() 
+        public void ToonVloten()
         {
             foreach (Vloot vloot in Haven)
             {
@@ -22,11 +21,11 @@ namespace OefCollecties
         public void PrintTotaalCargoWaarde()
         {
             float totaalCargoWaarde = 0;
-            foreach (Vloot vloot in Haven) 
+            foreach (Vloot vloot in Haven)
             {
                 foreach (Ship ship in vloot.schippings)
                 {
-                    if (ship is ContainerShip) 
+                    if (ship is ContainerShip)
                     {
                         totaalCargoWaarde += ((ContainerShip)ship).CargoWaarde; // casten naar containership
                     }
@@ -34,28 +33,28 @@ namespace OefCollecties
             }
             Console.WriteLine(totaalCargoWaarde);
         }
-        public void GeefHavenAlfabetisch() 
+        public void GeefHavenAlfabetisch()
         {
             foreach (Vloot vloot in Haven)
             {
                 Console.WriteLine(vloot.naam);
             }
         }
-        public void VoegVlootToe(Vloot vloot) 
+        public void VoegVlootToe(Vloot vloot)
         {
-            if(Haven.Contains(vloot) != true)
-            Haven.Add(vloot);
+            if (Haven.Contains(vloot) != true)
+                Haven.Add(vloot);
             else
                 Console.WriteLine("vloot zit al in de haven");
         }
-        public void VoegHavenToe(Ship ship) 
+        public void VoegHavenToe(Ship ship)
         {
-            if(ship.vloot != null)
-            VoegVlootToe(ship.vloot);
+            if (ship.vloot != null)
+                VoegVlootToe(ship.vloot);
             else
                 Console.WriteLine("ship is geen deel van een haven");
         }
-        public void VeranderSchipVanVloot(string naamShip, string naamVloot) 
+        public void VeranderSchipVanVloot(string naamShip, string naamVloot)
         {
             //hulpObjecten
             Vloot hulpVloot = null;//pointer naar gevonden vloot.

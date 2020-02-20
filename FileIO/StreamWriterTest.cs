@@ -1,17 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace FileIO
 {
     class StreamWriterTest
     {
-        static void StreamWriterTesteken() 
+        static void StreamWriterTesteken()
         {
-        Console.WriteLine("****Fun with streamWriter / StreamReader ****\n");
+            Console.WriteLine("****Fun with streamWriter / StreamReader ****\n");
             //get a streamwriter and write string data.
-            using(StreamWriter writer = File.CreateText("reminders.txt")) 
+            using (StreamWriter writer = File.CreateText("reminders.txt"))
             {
                 writer.WriteLine("1)Vuilligheid");
                 writer.WriteLine("2)Tralalal");

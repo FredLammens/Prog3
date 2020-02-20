@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.IO.Compression;
 namespace FileIO
@@ -12,7 +11,7 @@ namespace FileIO
             Console.WriteLine("**** Fun with Binary writers ****\n");
             //Open a binary writer for a file.
             FileInfo f = new FileInfo(@"C:\Users\Biebem\Downloads\trala.dat");
-            using (BinaryWriter bw = new BinaryWriter(f.OpenWrite())) 
+            using (BinaryWriter bw = new BinaryWriter(f.OpenWrite()))
             {
                 //print out the type of BaseStream.
                 //System.IO.FileStream in this case
@@ -29,11 +28,11 @@ namespace FileIO
             Console.WriteLine("Done!");
             Console.ReadLine();
         }
-        public static void BinaryReadertestk() 
+        public static void BinaryReadertestk()
         {
             FileInfo f = new FileInfo(@"C:\Users\Biebem\Downloads\trala.dat");
             //read binary data from stream
-            using (BinaryReader br = new BinaryReader(f.OpenRead())) 
+            using (BinaryReader br = new BinaryReader(f.OpenRead()))
             {
                 Console.WriteLine(br.ReadDouble());
                 Console.WriteLine(br.ReadInt32());

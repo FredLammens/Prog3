@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Oef
 {
@@ -13,16 +11,16 @@ namespace Oef
         //1.Define a delegate
         //2.Define an event based on that delgate
         //3.Raise the event
-        public delegate void VerkoopProductEventHandler(object source,WinkelEventArgs args);
+        public delegate void VerkoopProductEventHandler(object source, WinkelEventArgs args);
         public event VerkoopProductEventHandler Verkoop;
-        public void VerkoopProduct(Bestelling bestelling) 
+        public void VerkoopProduct(Bestelling bestelling)
         {
             OnVerkoop(bestelling);
         }
         protected virtual void OnVerkoop(Bestelling bestelling)
         {
             if (Verkoop != null)
-                Verkoop(this, new WinkelEventArgs() {Bestelling = bestelling });
+                Verkoop(this, new WinkelEventArgs() { Bestelling = bestelling });
         }
     }
 

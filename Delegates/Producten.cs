@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Oef
+﻿namespace Oef
 {
-    public enum ProductType { Tripel, Dubbel, Kriek, Pils}
+    public enum ProductType { Tripel, Dubbel, Kriek, Pils }
 }

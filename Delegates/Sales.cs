@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace Oef
 {
     class Sales
     {
-        Dictionary<string,List<Bestelling>> Deals = new Dictionary<string, List<Bestelling>>(); //klant en lijst van bestellingen
-        public void Rapport() 
+        Dictionary<string, List<Bestelling>> Deals = new Dictionary<string, List<Bestelling>>(); //klant en lijst van bestellingen
+        public void Rapport()
         {
             #region Test
             //List<Bestelling> bestellingskes =new List<Bestelling>() { new Bestelling(ProductType.Kriek, 2.2, 3, "tralalal" ),new Bestelling(ProductType.Pils,3.5,2,"kaka"),new Bestelling(ProductType.Tripel,2.6,6,"shablabaa")};  
@@ -25,7 +24,7 @@ namespace Oef
                 {
                     var product = Deals.ElementAt(i).Value[j].Product;
                     var aantal = Deals.ElementAt(i).Value[j].Aantal;
-                    tekst = product.ToString().PadRight(8) + aantal ;
+                    tekst = product.ToString().PadRight(8) + aantal;
                     Console.WriteLine(tekst.PadLeft(tekst.Length + 3));
                 }
             }
@@ -43,7 +42,7 @@ namespace Oef
                 }
                 i++;
             }
-            if (i == Deals.Count) 
+            if (i == Deals.Count)
             {
                 List<Bestelling> bestellingskes = new List<Bestelling>() { e.Bestelling };
                 Deals.Add(e.Bestelling.Adres, bestellingskes);

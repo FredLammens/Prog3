@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace OefCollecties
+﻿namespace OefCollecties
 {
     class CruiseShip : Ship
     {
         public int AantalPassagiers { get; private set; }
-        public CruiseShip(int aantalPassagiers , float lengte,float breedte,string naam) : base(lengte,breedte,naam)
+        public CruiseShip(int aantalPassagiers, float lengte, float breedte, string naam) : base(lengte, breedte, naam)
         {
             AantalPassagiers = aantalPassagiers;
         }

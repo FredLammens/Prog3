@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace OefCollecties
 {
@@ -13,25 +12,27 @@ namespace OefCollecties
         {
             this.naam = naam;
         }
-        public void VoegSchipToe(Ship schippeken) 
+        public void VoegSchipToe(Ship schippeken)
         {
             if (schippings.Count < 2)
             {
                 schippeken.vloot = this;
                 schippings.Add(schippeken);
-            }else
+            }
+            else
                 Console.WriteLine("Er zitten al 2 schepen in deze vloot.");
         }
-        public void VerwijderSchip(Ship schippeken) 
+        public void VerwijderSchip(Ship schippeken)
         {
             if (schippings.Contains(schippeken))
             {
                 schippeken.vloot = null;
                 schippings.Remove(schippeken);
-            }else
+            }
+            else
                 Console.WriteLine("Schippeken zit niet in de vloot.");
         }
-        public Ship ZoekSchip(string naam) 
+        public Ship ZoekSchip(string naam)
         {
             foreach (Ship ship in schippings)
             {
@@ -40,7 +41,7 @@ namespace OefCollecties
             }
             return null;
         }
-        public void GeefSchepen() 
+        public void GeefSchepen()
         {
             Console.WriteLine("--------------------------");
             Console.WriteLine($"Schepen van {this.naam}");

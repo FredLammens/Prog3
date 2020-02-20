@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OefCollecties
 {
     class Ship
     {
         public float lengte { get; private set; }
-        public float breedte { get;private set; }
+        public float breedte { get; private set; }
         public string naam { get; private set; }
         public Vloot vloot { get; set; }
-        public Ship(float lengte,float breedte,string naam)
+        public Ship(float lengte, float breedte, string naam)
         {
             this.lengte = lengte;
             this.breedte = breedte;
@@ -31,7 +29,7 @@ namespace OefCollecties
         public override string ToString()
         {
             string shipinfo = $" Schip {naam} heeft een breedte van : {breedte} en een lengte van {lengte}. ";
-            return shipinfo ;
+            return shipinfo;
         }
     }
 }

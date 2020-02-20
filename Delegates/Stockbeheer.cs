@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Oef
 {
@@ -15,9 +14,9 @@ namespace Oef
             Stock.Add(ProductType.Pils, 100);
             Stock.Add(ProductType.Tripel, 100);
         }
-        public void OnVerkoop(object source, WinkelEventArgs e) 
+        public void OnVerkoop(object source, WinkelEventArgs e)
         {
-            Stock[e.Bestelling.Product] = Stock[e.Bestelling.Product]-e.Bestelling.Aantal;
+            Stock[e.Bestelling.Product] = Stock[e.Bestelling.Product] - e.Bestelling.Aantal;
             Console.WriteLine("verkoop shit");
             if (Stock[e.Bestelling.Product] < minimumgrens)
             {
