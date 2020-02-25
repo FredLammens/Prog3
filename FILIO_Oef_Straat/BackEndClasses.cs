@@ -33,15 +33,26 @@ namespace FILIO_Oef_Straat
         public static List<string[]> FileSplitter(string fileToReadPath, char teken) 
         {
             List<string[]> splittedLines = new List<string[]>();
-            using (StreamReader file = new StreamReader(fileToReadPath))
+            //using (StreamReader file = new StreamReader(fileToReadPath))
+            //{
+            //    string ln;
+            //    while ((ln = file.ReadLine()) != null)
+            //    {
+            //        splittedLines.Add(ln.Split(teken));
+            //    }
+            //    return splittedLines;
+            //}
+            using (FileStream fs = File.Open(fileToReadPath,FileMode.Open,FileAccess.Read,FileShare.ReadWrite ))
+            using (BufferedStream bs = new BufferedStream(fs))
+            using (StreamReader sr = new StreamReader(bs))
             {
-                string ln;
-                while ((ln = file.ReadLine()) != null)
+                string s;
+                while ((s = sr.ReadLine()) != null)
                 {
-                    splittedLines.Add(ln.Split(teken));
+                    splittedLines.Add(s.Split(teken));
                 }
-                return splittedLines;
             }
+            return splittedLines;
         }
         public static void Clean(string path)
         {
