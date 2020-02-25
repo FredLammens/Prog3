@@ -19,8 +19,8 @@ namespace Oef
         }
         protected virtual void OnVerkoop(Bestelling bestelling)
         {
-            if (Verkoop != null)
-                Verkoop(this, new WinkelEventArgs() { Bestelling = bestelling });
+            //if (Verkoop != null)
+                Verkoop?.Invoke(this, new WinkelEventArgs() { Bestelling = bestelling });
         }
     }
 
