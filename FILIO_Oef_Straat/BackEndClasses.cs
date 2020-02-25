@@ -9,22 +9,22 @@ namespace FILIO_Oef_Straat
 {
     class BackEndClasses
     {
-        public static void Dataverwerker() 
+        public static void Dataverwerker(string path) 
         {
-            Unzipper(@"C:\Users\Biebem\Google Drive\School\hbO5\Semester2\hbo5_Programmeren3\Les05", "unzipt");
+            Console.WriteLine("Folder unzipping.");
+            Unzipper(path, "unziptData");
             Console.WriteLine("Folder unzipt.");
             //alle parsers
-            Console.WriteLine("parsing files...");
-            Dictionary<int, string> straat = Parsers.StraatParser(@"C:\Users\Biebem\Google Drive\School\hbO5\Semester2\hbo5_Programmeren3\Les05\unzipt\WRstraatnamen.csv");//straatnamenParser
-           // straatnaamID , naam
-            Dictionary<int, int> stratenInGemeente = Parsers.StratenInGemeentenParser(@"C:\Users\Biebem\Google Drive\School\hbO5\Semester2\hbo5_Programmeren3\Les05\unzipt\StraatnaamID_gemeenteID.csv"); //StraatnaamID-GemeenteID
-            //    straatID, gemeenteID  => Lookuptabel straten in gemeentes
-            Dictionary<int, string> gemeente = Parsers.GemeenteEnProvincieParser(@"C:\Users\Biebem\Google Drive\School\hbO5\Semester2\hbo5_Programmeren3\Les05\unzipt\ProvincieInfo.csv"); //gemeentenaam gemeenteNaamID mag weg wordt niet gebruikt , taalcode wordt in code zelf gebruikt mag ook weg .
-            //    gemeenteID, naam
-            Dictionary<int, int> gemeenteInProvincie;//provincieInfo => 1 provincie heeft meerdere gemeentes.
-            //  provincieID, gemeenteIDs => lookuptabel gemeentes in provincies
-            Dictionary<int, string> Provincie = Parsers.GemeenteEnProvincieParser(@"C:\Users\Biebem\Google Drive\School\hbO5\Semester2\hbo5_Programmeren3\Les05\unzipt\ProvincieIDsVlaanderen.csv");
-            // provincieID,  naam
+            Console.WriteLine("Analyzing files...");
+            Dictionary<int, string> straatNamen = Parsers.StraatParser(path + @"\unziptData\WRstraatnamen.csv");
+            Console.WriteLine("Streats analized.");
+            Dictionary<int, int> stratenInGemeente = Parsers.StratenInGemeentenParser(path + @"\unziptData\StraatnaamID_gemeenteID.csv"); //voor lookups
+            Dictionary<int, string> gemeenteNamen = Parsers.GemeenteEnProvincieParser(path + @"\unziptData\WRGemeentenaam.csv"); //gemeentenaam gemeenteNaamID mag weg wordt niet gebruikt , taalcode wordt in code zelf gebruikt mag ook weg .
+            Console.WriteLine("Municipality name analized.");
+            Dictionary<int, string> provincieNamen = Parsers.GemeenteEnProvincieParser(path + @"\unziptData\ProvincieInfo.csv");
+            Console.WriteLine("Provincial name analized.");
+            List<int> provincieID = Parsers.ProvincieParser(path + @"\unziptData\ProvincieIDsVlaanderen.csv"); // voor lookups
+            Console.WriteLine("All files analized.");
         }
         public static void Unzipper(string zipPath, string filename)  //probeer eventueel zonder nieuwe map aan te maken 
         {
@@ -86,6 +86,14 @@ namespace FILIO_Oef_Straat
 
             Directory.Delete(path);
             Console.WriteLine("Alle directories verwijderd.");
+        }
+        public static void BestandenMaker(List<int> provincieIDs , Dictionary<int,string> provincienamen,Dictionary<> ,string path) 
+        {
+            foreach (string naam in namen)
+            {
+                if (!Directory.Exists(path + "\\" + naam))
+                    Directory.CreateDirectory(path + "\\" + naam);
+            }
         }
     }
 

@@ -61,7 +61,7 @@ namespace FILIO_Oef_Straat
              });
                 return gemeente.OrderBy(x => x.Value).ToDictionary(x => x.Key, x => x.Value);
         }
-        public static List<int> GemeenteInProvincieParser(string fileToReadPath) 
+        public static List<int> ProvincieParser(string fileToReadPath) 
         {
             List<int> ProvincieIDs = new List<int>();
             List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ',');
@@ -73,11 +73,5 @@ namespace FILIO_Oef_Straat
              });
             return ProvincieIDs;        
         }
-       // public static Dictionary<int, int> GemeenteInProvincieLinker() 
-       // {
-
-        //}
-
-
     }
 }
