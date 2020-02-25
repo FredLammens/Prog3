@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO.Compression;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace FILIO_Oef_Straat
 {
@@ -33,6 +34,7 @@ namespace FILIO_Oef_Straat
         public static List<string[]> FileSplitter(string fileToReadPath, char teken) 
         {
             List<string[]> splittedLines = new List<string[]>();
+            //---------------------------1e manier---------------------------
             //using (StreamReader file = new StreamReader(fileToReadPath))
             //{
             //    string ln;
@@ -42,14 +44,18 @@ namespace FILIO_Oef_Straat
             //    }
             //    return splittedLines;
             //}
-            using (FileStream fs = File.Open(fileToReadPath,FileMode.Open,FileAccess.Read,FileShare.ReadWrite ))
+            //----------------------2e manier in dotNet ingebouwd (traagste)
+            //splittedLines.Add(File.ReadAllLines(fileToReadPath));
+            //return splittedLines;
+            //----------------------3e snelste manier-----------------------------
+            using (FileStream fs = File.Open(fileToReadPath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (BufferedStream bs = new BufferedStream(fs))
             using (StreamReader sr = new StreamReader(bs))
             {
                 string s;
                 while ((s = sr.ReadLine()) != null)
                 {
-                    splittedLines.Add(s.Split(teken));
+                    splittedLines.Add(s.Split(teken)); //.split gebruikt intern een readonlyspan<char>
                 }
             }
             return splittedLines;
