@@ -16,13 +16,13 @@ namespace FILIO_Oef_Straat
             Console.WriteLine("Analyzing files...");
             Dictionary<int, string> straatNamen = Parsers.StraatParser(path + @"\DirFileOefening\WRstraatnamen.csv");
             Console.WriteLine("Streats analized.");
-            Dictionary<int, int> stratenIDs = Parsers.StratenInGemeentenParser(path + @"\DirFileOefening\StraatnaamID_gemeenteID.csv"); //voor lookups
+            Dictionary<int, List<int>> stratenIDs = Parsers.StratenInGemeentenParser(path + @"\DirFileOefening\StraatnaamID_gemeenteID.csv"); //voor lookups
             Dictionary<int, string> gemeenteNamen = Parsers.GemeenteEnProvincieParser(path + @"\DirFileOefening\WRGemeentenaam.csv"); //gemeentenaam gemeenteNaamID mag weg wordt niet gebruikt , taalcode wordt in code zelf gebruikt mag ook weg .
             Console.WriteLine("Municipality name analized.");
             Dictionary<int, string> provincieNamen = Parsers.GemeenteEnProvincieParser(path + @"\DirFileOefening\ProvincieInfo.csv");
             Console.WriteLine("Provincial name analized.");
             List<int> provincieID = Parsers.ProvincieParser(path + @"\DirFileOefening\ProvincieIDsVlaanderen.csv"); // voor lookups
-            Dictionary<int, int> gemeenteIDs = Parsers.GemeentenInProvincieParser(path + @"\DirFileOefening\ProvincieInfo.csv");
+            Dictionary<int, List<int>> gemeenteIDs = Parsers.GemeentenInProvincieParser(path + @"\DirFileOefening\ProvincieInfo.csv"); //voor lookups
             Console.WriteLine("All files analized.");
             BestandenMaker(provincieID, gemeenteIDs, stratenIDs, provincieNamen, gemeenteNamen, straatNamen, path + @"\data");
         }
@@ -87,7 +87,7 @@ namespace FILIO_Oef_Straat
             Directory.Delete(path);
             Console.WriteLine("Alle directories verwijderd.");
         }
-        public static void BestandenMaker(List<int> provincieIDs, Dictionary<int, int> gemeenteIDs, Dictionary<int, int> stratenIDs, Dictionary<int, string> provincieNamen, Dictionary<int, string> gemeenteNamen, Dictionary<int, string> straatNamen, string path)
+        public static void BestandenMaker(List<int> provincieIDs, Dictionary<int, List<int>> gemeenteIDs, Dictionary<int, List<int>> stratenIDs, Dictionary<int, string> provincieNamen, Dictionary<int, string> gemeenteNamen, Dictionary<int, string> straatNamen, string path)
         {
             Console.WriteLine("Start bestanden maken...");
             foreach (int provincieID in provincieIDs)//provincieIDs afgaan
@@ -95,10 +95,19 @@ namespace FILIO_Oef_Straat
                 provincieNamen.TryGetValue(provincieID, out string provincie);
                 Directory.CreateDirectory(path + @"\" + provincie);//proviciemappen aanmaken.
                 Console.Write("provinciemap gemaakt ");
-                //----------prutsings---------------------------------------
-                foreach (KeyValuePair<int, int> gemeenteID in gemeenteIDs)
-                {
-                }
+                //----------hier loopt het fout---------------------------------------
+                    List<int> alleGemeenteIDs = gemeenteIDs[provincieID];
+                    foreach (int gemeenteID in alleGemeenteIDs)
+                    {
+                        using (StreamWriter sw = new StreamWriter(path + @"\" + provincie + @"\" + gemeenteNamen[gemeenteID])) // aanmaken text file
+                        {//grotere buffer geven voor sneller te laten werken . path,false,Encoding.UTF8,65536
+                        List<int> straatIDs = stratenIDs[gemeenteID];
+                        foreach (int straatID in straatIDs)
+                        {
+                        sw.WriteLine(straatNamen[straatID]); //straatid
+                        }
+                        }
+                    }
             }
             Console.WriteLine("Klaar met bestanden aan te maken.");
         }
