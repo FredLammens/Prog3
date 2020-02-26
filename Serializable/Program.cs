@@ -27,5 +27,23 @@ namespace Serializable
             stream.Close();
             return obj;
         }
+        //-----------------------------Vrijdag----------------------------------------------
+        //public void writeFile() 
+        //{
+        //    using (StreamWriter sw = new StreamWriter(Path.Combine(Path, "adresInfo.txt"))) 
+        //    {
+        //        foreach (var x in data.keys)
+        //        {
+        //            foreach (var y in data[x].keys)
+        //            {
+        //                foreach (var z in data[x][y])
+        //                {
+        //                    Console.WriteLine($"{x},{y},{z}");
+        //                }
+
+        //            }
+        //        }
+        //    }
+        //}
     }
 }
