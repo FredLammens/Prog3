@@ -1,37 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.IO.Compression;
 using System.IO;
-using System.Threading.Tasks;
+using System.IO.Compression;
 
 namespace FILIO_Oef_Straat
 {
     class BackEndClasses
     {
-        public static void Dataverwerker(string path) 
+        public static void Dataverwerker(string path)
         {
             Console.WriteLine("Folder unzipping.");
-            Unzipper(path, "unziptData");
+            Unzipper(path);
             Console.WriteLine("Folder unzipt.");
             //alle parsers
             Console.WriteLine("Analyzing files...");
-            Dictionary<int, string> straatNamen = Parsers.StraatParser(path + @"\unziptData\WRstraatnamen.csv");
+            Dictionary<int, string> straatNamen = Parsers.StraatParser(path + @"\DirFileOefening\WRstraatnamen.csv");
             Console.WriteLine("Streats analized.");
-            Dictionary<int, int> stratenInGemeente = Parsers.StratenInGemeentenParser(path + @"\unziptData\StraatnaamID_gemeenteID.csv"); //voor lookups
-            Dictionary<int, string> gemeenteNamen = Parsers.GemeenteEnProvincieParser(path + @"\unziptData\WRGemeentenaam.csv"); //gemeentenaam gemeenteNaamID mag weg wordt niet gebruikt , taalcode wordt in code zelf gebruikt mag ook weg .
+            Dictionary<int, int> stratenIDs = Parsers.StratenInGemeentenParser(path + @"\DirFileOefening\StraatnaamID_gemeenteID.csv"); //voor lookups
+            Dictionary<int, string> gemeenteNamen = Parsers.GemeenteEnProvincieParser(path + @"\DirFileOefening\WRGemeentenaam.csv"); //gemeentenaam gemeenteNaamID mag weg wordt niet gebruikt , taalcode wordt in code zelf gebruikt mag ook weg .
             Console.WriteLine("Municipality name analized.");
-            Dictionary<int, string> provincieNamen = Parsers.GemeenteEnProvincieParser(path + @"\unziptData\ProvincieInfo.csv");
+            Dictionary<int, string> provincieNamen = Parsers.GemeenteEnProvincieParser(path + @"\DirFileOefening\ProvincieInfo.csv");
             Console.WriteLine("Provincial name analized.");
-            List<int> provincieID = Parsers.ProvincieParser(path + @"\unziptData\ProvincieIDsVlaanderen.csv"); // voor lookups
+            List<int> provincieID = Parsers.ProvincieParser(path + @"\DirFileOefening\ProvincieIDsVlaanderen.csv"); // voor lookups
+            Dictionary<int, int> gemeenteIDs = Parsers.GemeentenInProvincieParser(path + @"\DirFileOefening\ProvincieInfo.csv");
             Console.WriteLine("All files analized.");
+            BestandenMaker(provincieID, gemeenteIDs, stratenIDs, provincieNamen, gemeenteNamen, straatNamen, path + @"\data");
         }
-        public static void Unzipper(string zipPath, string filename)  //probeer eventueel zonder nieuwe map aan te maken 
+        public static void Unzipper(string zipPath)  //probeer eventueel zonder nieuwe map aan te maken 
         {
-            ZipFile.ExtractToDirectory(zipPath, zipPath + @"\{filename}");
+            ZipFile.ExtractToDirectory(zipPath + @"\DirFileOefening.zip", zipPath);
         }
 
-        public static List<string[]> FileSplitter(string fileToReadPath, char teken) 
+        public static List<string[]> FileSplitter(string fileToReadPath, char teken)
         {
             List<string[]> splittedLines = new List<string[]>();
             //---------------------------1e manier---------------------------
@@ -87,13 +87,20 @@ namespace FILIO_Oef_Straat
             Directory.Delete(path);
             Console.WriteLine("Alle directories verwijderd.");
         }
-        public static void BestandenMaker(List<int> provincieIDs , Dictionary<int,string> provincienamen,Dictionary<> ,string path) 
+        public static void BestandenMaker(List<int> provincieIDs, Dictionary<int, int> gemeenteIDs, Dictionary<int, int> stratenIDs, Dictionary<int, string> provincieNamen, Dictionary<int, string> gemeenteNamen, Dictionary<int, string> straatNamen, string path)
         {
-            foreach (string naam in namen)
+            Console.WriteLine("Start bestanden maken...");
+            foreach (int provincieID in provincieIDs)//provincieIDs afgaan
             {
-                if (!Directory.Exists(path + "\\" + naam))
-                    Directory.CreateDirectory(path + "\\" + naam);
+                provincieNamen.TryGetValue(provincieID, out string provincie);
+                Directory.CreateDirectory(path + @"\" + provincie);//proviciemappen aanmaken.
+                Console.Write("provinciemap gemaakt ");
+                //----------prutsings---------------------------------------
+                foreach (KeyValuePair<int, int> gemeenteID in gemeenteIDs)
+                {
+                }
             }
+            Console.WriteLine("Klaar met bestanden aan te maken.");
         }
     }
 
