@@ -96,18 +96,18 @@ namespace FILIO_Oef_Straat
                 Directory.CreateDirectory(path + @"\" + provincie);//proviciemappen aanmaken.
                 Console.Write("provinciemap gemaakt ");
                 //----------hier loopt het fout---------------------------------------
-                    List<int> alleGemeenteIDs = gemeenteIDs[provincieID];
-                    foreach (int gemeenteID in alleGemeenteIDs)
-                    {
-                        using (StreamWriter sw = new StreamWriter(path + @"\" + provincie + @"\" + gemeenteNamen[gemeenteID])) // aanmaken text file
-                        {//grotere buffer geven voor sneller te laten werken . path,false,Encoding.UTF8,65536
+                List<int> alleGemeenteIDs = gemeenteIDs[provincieID];
+                foreach (int gemeenteID in alleGemeenteIDs)
+                {
+                    using (StreamWriter sw = new StreamWriter(path + @"\" + provincie + @"\" + gemeenteNamen[gemeenteID])) // aanmaken text file
+                    {//grotere buffer geven voor sneller te laten werken . path,false,Encoding.UTF8,65536
                         List<int> straatIDs = stratenIDs[gemeenteID];
                         foreach (int straatID in straatIDs)
                         {
-                        sw.WriteLine(straatNamen[straatID]); //straatid
-                        }
+                            sw.WriteLine(straatNamen[straatID]); //straatid
                         }
                     }
+                }
             }
             Console.WriteLine("Klaar met bestanden aan te maken.");
         }

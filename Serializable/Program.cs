@@ -12,14 +12,14 @@ namespace Serializable
         {
             Console.WriteLine("Hello World!");
         }
-        public void writeClass() 
+        public void writeClass()
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(@"C:\Users\Biebem\Downloads\MyFile.bin", FileMode.Create, FileAccess.Write, FileShare.None);
             formatter.Serialize(stream, this);
             stream.Close();
         }
-        public static FileProcessor readClass() 
+        public static FileProcessor readClass()
         {
             IFormatter formatter = new BinaryFormatter();
             Stream stream = new FileStream(@"C:\Users\Biebem\Downloads\MyFile.bin", FileMode.Open, FileAccess.Read, FileShare.Read);

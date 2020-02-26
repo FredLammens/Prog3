@@ -33,22 +33,27 @@ namespace FILIO_Oef_Straat
             //    if(key > 0)
             //    stratenInGemeenten.Add(key, value);
             //}//moet niet gesorteerd worden = soort van lookup table
-            foreach (string[] line in lines)
-            {
-                int.TryParse(line[1], out int key);
-                int.TryParse(line[0], out int value);
-                if (key == currentkey)
-                {
-                    values.Add(value);
 
-                }
-                else 
+            //---------------tester------------------------
+            int currentKey = 1;
+            while (currentKey != -1)
+            {
+                foreach (string[] line in lines)
                 {
-                    stratenInGemeenten.Add(currentkey, values);
-                    values.Clear();
-                    values.Add(value);
-                    currentkey++;
+                    int.TryParse(line[1], out int key);
+                    int.TryParse(line[0], out int value);
+                    if (key == currentKey)
+                    {
+                        values.Add(value);
+                    }
                 }
+                if (values.Count > 0)
+                {
+                    stratenInGemeenten.Add(currentKey, values);
+                    currentKey++;
+                }
+                else
+                    currentKey = -1;
             }
             return stratenInGemeenten;
         }
@@ -83,29 +88,29 @@ namespace FILIO_Oef_Straat
             Dictionary<int, List<int>> gemeentenInProvincies = new Dictionary<int, List<int>>();
             List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
             List<int> values = new List<int>();
-            //-----------------------test met provincieID als key-------------------------
-            int currentkey = 1;
+            //-----------------------test met provincieID als key------------------------- List wordt niet ingevuld keys zijn wel juist 
+            int currentKey = 1;
+            while (currentKey != -1)
+            {
                 foreach (string[] line in lines)
                 {
                     if (line[2] == "nl")  //per provincieID moet een lijst van gemeenteIDs opgeslagen worden (problemen op het einde van het bestand provincieinfo.csv)
                     {
-                        int.TryParse(line[0], out int key); //gemeenteID                   
+                        int.TryParse(line[0], out int key); //gemeenteID     
                         int.TryParse(line[1], out int value); //provincieID
-                    if (key == currentkey)
-                    {
-                        values.Add(value);
-                    }
-                    else
-                    {
-                        gemeentenInProvincies.Add(currentkey, values);
-                        values.Clear();
-                        values.Add(value);
-                        currentkey++; //kan key niet gebruiken anders werkt niet voor laatste
-                    }
-
+                        if (key == currentKey)
+                            values.Add(value);
                     }
                 }
-            return gemeentenInProvincies;
+                if (values.Count > 0)
+                {
+                    gemeentenInProvincies.Add(currentKey, values);
+                    currentKey++;
+                }
+                else
+                    currentKey = -1;
             }
+            return gemeentenInProvincies;
         }
     }
+}
