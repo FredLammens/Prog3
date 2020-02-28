@@ -7,7 +7,7 @@ namespace LINQ
 {
     class WhereCursOef
     {
-        public static void ShowFilter1(IList<Program.Student> studentList) 
+        public static void ShowFilter1(IList<Student> studentList) 
         {
             Console.WriteLine("Filter1");
             var filteredResult = studentList.Where(s => s.Age > 18 && s.StudentName.Length > 3);
@@ -16,7 +16,7 @@ namespace LINQ
 
             Console.WriteLine("--------------------------------");
         }
-        public static void ShowFilter2(IList<Program.Student> studentList) 
+        public static void ShowFilter2(IList<Student> studentList) 
         {
             Console.WriteLine("Filter2");
             var filteredResult = studentList.Where((s, i) =>

@@ -7,7 +7,7 @@ namespace LINQ
 {
     class OrderingCursOef
     {
-        public static void Order1(IList<Program.Student> studentList)
+        public static void Order1(IList<Student> studentList)
         {
             Console.WriteLine("Order 1");
             var studentsInAscOrder = studentList.OrderBy(s => s.StudentName);
@@ -17,7 +17,7 @@ namespace LINQ
             }
             Console.WriteLine("--------------------------------");
         }
-        public static void Order2(IList<Program.Student> studentList) 
+        public static void Order2(IList<Student> studentList) 
         {
             Console.WriteLine("Order 2");
             var studentsInOrder = studentList.OrderByDescending(s => s.StudentName);
@@ -27,7 +27,7 @@ namespace LINQ
             }
             Console.WriteLine("--------------------------------");
         }
-        public static void Order3(IList<Program.Student> studentList) 
+        public static void Order3(IList<Student> studentList) 
         {
             Console.WriteLine("Order 3");
             var studentsInOrder = studentList.OrderBy(s => s.Age).ThenBy(s => s.StudentName);
@@ -37,7 +37,7 @@ namespace LINQ
             }
             Console.WriteLine("--------------------------------");
         }
-        public static void Order4(IList<Program.Student> studentList) 
+        public static void Order4(IList<Student> studentList) 
         {
             Console.WriteLine("Order 4");
             var studentsInOrder = studentList.OrderBy(s => s.Age).ThenBy(s => s.StudentName).Reverse();
