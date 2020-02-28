@@ -8,8 +8,8 @@ namespace FILIO_Oef_Straat
         public static Dictionary<int, string> StraatParser(string fileToReadPath)//straatnamen
         {
             Dictionary<int, string> straat = new Dictionary<int, string>();
-            List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
-            foreach (string[] line in lines)
+            List<List<string>> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
+            foreach (List<string> line in lines)
             {
                 int.TryParse(line[0], out int key);
                 if (key > 0)
@@ -21,7 +21,7 @@ namespace FILIO_Oef_Straat
         public static Dictionary<int, List<int>> StratenInGemeentenParser(string fileToReadPath) //straatnaamID_gemeenteID
         {
             Dictionary<int, List<int>> stratenInGemeenten = new Dictionary<int, List<int>>();
-            List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
+            List<List<string>> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
             List<int> values = new List<int>();
             //foreach (string[] line in lines)
             //{
@@ -35,7 +35,7 @@ namespace FILIO_Oef_Straat
 
             //---------------tester------------------------
             int currentKey = 1;
-            foreach (string[] line in lines)
+            foreach (List<string> line in lines)
             {
                 bool keyJuist = int.TryParse(line[1], out int key);
                 int.TryParse(line[0], out int value);
@@ -56,8 +56,8 @@ namespace FILIO_Oef_Straat
         public static Dictionary<int, string> GemeenteEnProvincieParser(string fileToReadPath)  //provincieInfo
         {
             Dictionary<int, string> gemeente = new Dictionary<int, string>();
-            List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
-            foreach (string[] line in lines)
+            List<List<string>> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
+            foreach (List<string> line in lines)
             {
                 if (line[2] == "nl")
                 {
@@ -71,8 +71,8 @@ namespace FILIO_Oef_Straat
         public static List<int> ProvincieParser(string fileToReadPath)
         {
             List<int> ProvincieIDs = new List<int>();
-            List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ',');
-            foreach (string[] line in lines)
+            List<List<string>> lines = BackEndClasses.FileSplitter(fileToReadPath, ',');
+            foreach (List<string> line in lines)
             {
                 int.TryParse(line[0], out int id);
                 ProvincieIDs.Add(id);
@@ -82,14 +82,14 @@ namespace FILIO_Oef_Straat
         public static Dictionary<int, List<int>> GemeentenInProvincieParser(string fileToReadPath) //koppeling tussen ProvincieID en gemeenteID => prov = key , gem = value ==>> kan anders ?
         {
             Dictionary<int, List<int>> gemeentenInProvincies = new Dictionary<int, List<int>>();
-            List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
+            List<List<string>> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
             lines.RemoveAt(0);//eerste lijn wegkrijgen.
             List<int> values = new List<int>();
             //-----------------------test met provincieID als key------------------------- List wordt niet ingevuld keys zijn wel juist 
             int currentKey = 1;
             while (currentKey != -1)
             {
-                foreach (string[] line in lines)
+                foreach (List<string> line in lines)
                 {
                     if (line[2] == "nl")  //per provincieID moet een lijst van gemeenteIDs opgeslagen worden (problemen op het einde van het bestand provincieinfo.csv)
                     {

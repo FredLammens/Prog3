@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 
 namespace FILIO_Oef_Straat
 {
@@ -31,9 +32,9 @@ namespace FILIO_Oef_Straat
             ZipFile.ExtractToDirectory(zipPath + @"\DirFileOefening.zip", zipPath);
         }
 
-        public static List<string[]> FileSplitter(string fileToReadPath, char teken)
+        public static List<List<string>> FileSplitter(string fileToReadPath, char teken)
         {
-            List<string[]> splittedLines = new List<string[]>();
+            List<List<String>> splittedLines = new List<List<String>>();
             //---------------------------1e manier---------------------------
             //using (StreamReader file = new StreamReader(fileToReadPath))
             //{
@@ -55,7 +56,7 @@ namespace FILIO_Oef_Straat
                 string s;
                 while ((s = sr.ReadLine()) != null)
                 {
-                    splittedLines.Add(s.Split(teken)); //.split gebruikt intern een readonlyspan<char>
+                    splittedLines.Add(s.Split(teken).ToList()); //.split gebruikt intern een readonlyspan<char>
                 }
             }
             return splittedLines;
