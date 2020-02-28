@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LINQ
 {
@@ -9,7 +8,7 @@ namespace LINQ
     {
         IList<string> StringList1 = new List<string>() { "One", "Two", "Three", "Four", "Five" };
         IList<string> StringList2 = new List<string>() { "Four", "Five", "Six", "Seven", "Eight" };
-        public void intersect() 
+        public void intersect()
         {
             var result = StringList1.Intersect(StringList2);
             Console.WriteLine("-----Intersect-------------");
@@ -18,7 +17,7 @@ namespace LINQ
                 Console.WriteLine(str);
             }
         }
-        public void union() 
+        public void union()
         {
             var result = StringList1.Union(StringList2);
             Console.WriteLine("-------Union---------");
@@ -27,7 +26,7 @@ namespace LINQ
                 Console.WriteLine(str);
             }
         }
-        public void except() 
+        public void except()
         {
             var result = StringList1.Except(StringList2);
             Console.WriteLine("---------Except-----------");

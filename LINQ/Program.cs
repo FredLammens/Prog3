@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace LINQ
+﻿namespace LINQ
 {
     class Program
     {
@@ -29,6 +26,10 @@ namespace LINQ
             set.intersect();
             set.union();
             set.except();
+            JoinCursOef join = new JoinCursOef();
+            join.Join();
+            join.groupJoin();
+            AnyCursOef.IsAllAny();
         }
     }
 }

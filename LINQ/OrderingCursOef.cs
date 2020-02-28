@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace LINQ
 {
@@ -17,7 +16,7 @@ namespace LINQ
             }
             Console.WriteLine("--------------------------------");
         }
-        public static void Order2(IList<Student> studentList) 
+        public static void Order2(IList<Student> studentList)
         {
             Console.WriteLine("Order 2");
             var studentsInOrder = studentList.OrderByDescending(s => s.StudentName);
@@ -27,7 +26,7 @@ namespace LINQ
             }
             Console.WriteLine("--------------------------------");
         }
-        public static void Order3(IList<Student> studentList) 
+        public static void Order3(IList<Student> studentList)
         {
             Console.WriteLine("Order 3");
             var studentsInOrder = studentList.OrderBy(s => s.Age).ThenBy(s => s.StudentName);
@@ -37,11 +36,11 @@ namespace LINQ
             }
             Console.WriteLine("--------------------------------");
         }
-        public static void Order4(IList<Student> studentList) 
+        public static void Order4(IList<Student> studentList)
         {
             Console.WriteLine("Order 4");
             var studentsInOrder = studentList.OrderBy(s => s.Age).ThenBy(s => s.StudentName).Reverse();
-            foreach (var student in studentsInOrder) 
+            foreach (var student in studentsInOrder)
             {
                 Console.WriteLine(student);
             }

@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LINQ
 {
-    class CursusLijst 
+    class CursusLijst
     {
         public static IList<Cursus> c = new List<Cursus>()
             {
