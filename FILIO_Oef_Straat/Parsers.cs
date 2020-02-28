@@ -20,7 +20,6 @@ namespace FILIO_Oef_Straat
         }
         public static Dictionary<int, List<int>> StratenInGemeentenParser(string fileToReadPath) //straatnaamID_gemeenteID
         {
-            int currentkey = 1;
             Dictionary<int, List<int>> stratenInGemeenten = new Dictionary<int, List<int>>();
             List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
             List<int> values = new List<int>();
@@ -36,24 +35,21 @@ namespace FILIO_Oef_Straat
 
             //---------------tester------------------------
             int currentKey = 1;
-            while (currentKey != -1)
+            foreach (string[] line in lines)
             {
-                foreach (string[] line in lines)
+                bool keyJuist = int.TryParse(line[1], out int key);
+                int.TryParse(line[0], out int value);
+                if (keyJuist)
                 {
-                    int.TryParse(line[1], out int key);
-                    int.TryParse(line[0], out int value);
                     if (key == currentKey)
-                    {
                         values.Add(value);
+                    else
+                    {
+                        currentKey++;
+                        stratenInGemeenten.Add(key, values);
+                        values.Clear();
                     }
                 }
-                if (values.Count > 0)
-                {
-                    stratenInGemeenten.Add(currentKey, values);
-                    currentKey++;
-                }
-                else
-                    currentKey = -1;
             }
             return stratenInGemeenten;
         }
@@ -87,6 +83,7 @@ namespace FILIO_Oef_Straat
         {
             Dictionary<int, List<int>> gemeentenInProvincies = new Dictionary<int, List<int>>();
             List<string[]> lines = BackEndClasses.FileSplitter(fileToReadPath, ';');
+            lines.RemoveAt(0);//eerste lijn wegkrijgen.
             List<int> values = new List<int>();
             //-----------------------test met provincieID als key------------------------- List wordt niet ingevuld keys zijn wel juist 
             int currentKey = 1;

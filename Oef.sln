@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FileIO", "FileIO\FileIO.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FILIO_Oef_Straat", "FILIO_Oef_Straat\FILIO_Oef_Straat.csproj", "{8E9DC56E-B08E-4AF6-92B4-480AB6DD9181}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Serializable", "Serializable\Serializable.csproj", "{BCF21B36-B13D-4E57-924B-47AEC416333D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Serializable", "Serializable\Serializable.csproj", "{BCF21B36-B13D-4E57-924B-47AEC416333D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQ", "LINQ\LINQ.csproj", "{E2C28EE5-81D9-4112-9DD9-3A1E2A471D52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{BCF21B36-B13D-4E57-924B-47AEC416333D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCF21B36-B13D-4E57-924B-47AEC416333D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCF21B36-B13D-4E57-924B-47AEC416333D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E2C28EE5-81D9-4112-9DD9-3A1E2A471D52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2C28EE5-81D9-4112-9DD9-3A1E2A471D52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2C28EE5-81D9-4112-9DD9-3A1E2A471D52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2C28EE5-81D9-4112-9DD9-3A1E2A471D52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
