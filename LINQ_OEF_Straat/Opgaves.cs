@@ -76,8 +76,17 @@ namespace LINQ_OEF_Straat
                 Console.WriteLine(straatnaam.straat);
             }
         }
-        public void hoogsteAantalStraatNamen(List<StraatInfo> adresInfoLine) 
+        public void grootsteStraatNamen(List<StraatInfo> adresInfoLine) 
         {
+            var straatnam = adresInfoLine
+                .OrderByDescending(p => p.straat.Count()).First();
+                Console.WriteLine(straatnam);
+        }
+        public void uniekeStraten(List<StraatInfo> adresInfoLine) 
+        {
+            //var uniekstraat = adresInfoLine
+            //    .Select(g => g ).Distinct(new StraatInfocomparer());
+            //Console.WriteLine(uniekstraat);
         }
     }
 }
