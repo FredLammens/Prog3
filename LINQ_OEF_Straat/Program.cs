@@ -16,7 +16,9 @@ namespace LINQ_OEF_Straat
             //opgaves.provincieAlf(strInf);
             //opgaves.straatVoGem(strInf, "Antwerpen");
             //opgaves.meestvorStraat(strInf);
-            opgaves.geefaantStraat(strInf,8);
+            //opgaves.geefaantStraat(strInf,8);
+            opgaves.gemStraatnam(strInf, "Antwerpen","Boom");
+            opgaves.verschStraatnam(strInf, "Antwerpen");
         }
         public static void Unzipper(string zipPath)  //probeer eventueel zonder nieuwe map aan te maken 
         {

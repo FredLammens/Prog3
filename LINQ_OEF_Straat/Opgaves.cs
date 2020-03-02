@@ -54,5 +54,30 @@ namespace LINQ_OEF_Straat
                 Console.WriteLine(straatnaam.straat);
             }
         }
+        public void gemStraatnam(List<StraatInfo> adresInfoLine , string gemeente1 , string gemeente2) 
+        {
+            Console.WriteLine("gemeenschappelijke lijst van straatnamen");
+            var gemeente1Namen = adresInfoLine.Where(g => g.gemeente == gemeente1);
+            var gemeente2Namen = adresInfoLine.Where(g => g.gemeente == gemeente2);
+            var gemeenschappelijke = gemeente1Namen.Intersect(gemeente2Namen,new StraatInfocomparer());
+            foreach (var straatnaam in gemeenschappelijke)
+            {
+                Console.WriteLine(straatnaam.straat);
+            }
+        }
+        public void verschStraatnam(List<StraatInfo> adresInfoLine, string gemeente) 
+        {
+            Console.WriteLine("straatnamen enkel voorkomend in 1e gemeente maar niet in ");
+            var gemeente1Namen = adresInfoLine.Where(g => g.gemeente == gemeente);
+            var gemeente2Namen = adresInfoLine.Where(g => g.gemeente != gemeente);
+            var verschillende = gemeente1Namen.Except(gemeente2Namen, new StraatInfocomparer());
+            foreach (var straatnaam in verschillende)
+            {
+                Console.WriteLine(straatnaam.straat);
+            }
+        }
+        public void hoogsteAantalStraatNamen(List<StraatInfo> adresInfoLine) 
+        {
+        }
     }
 }
