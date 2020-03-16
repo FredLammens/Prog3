@@ -19,7 +19,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LINQ", "LINQ\LINQ.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LINQ_OEF_Straat", "LINQ_OEF_Straat\LINQ_OEF_Straat.csproj", "{0222CC5D-DF12-4D98-89AE-1A6AC606D0BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExceptionLESOef", "ExceptionLESOef\ExceptionLESOef.csproj", "{BF8F9EFE-F6B3-4F82-A584-BBC1D0EA320B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ExceptionLESOef", "ExceptionLESOef\ExceptionLESOef.csproj", "{BF8F9EFE-F6B3-4F82-A584-BBC1D0EA320B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamSelection", "TeamSelection\TeamSelection.csproj", "{294D9946-F381-4E9B-9122-98DC610B56AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBOEf", "DBOEf\DBOEf.csproj", "{38925408-A1BD-4C10-8E05-F1164D7298F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +67,14 @@ Global
 		{BF8F9EFE-F6B3-4F82-A584-BBC1D0EA320B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF8F9EFE-F6B3-4F82-A584-BBC1D0EA320B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF8F9EFE-F6B3-4F82-A584-BBC1D0EA320B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{294D9946-F381-4E9B-9122-98DC610B56AC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{294D9946-F381-4E9B-9122-98DC610B56AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{294D9946-F381-4E9B-9122-98DC610B56AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{294D9946-F381-4E9B-9122-98DC610B56AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38925408-A1BD-4C10-8E05-F1164D7298F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38925408-A1BD-4C10-8E05-F1164D7298F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38925408-A1BD-4C10-8E05-F1164D7298F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38925408-A1BD-4C10-8E05-F1164D7298F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
