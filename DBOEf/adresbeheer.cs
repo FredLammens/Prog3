@@ -10,20 +10,11 @@ namespace DBOEf
 {
     class Adresbeheer
     {
-        private string connectionString;
-        public Adresbeheer(string conenctionString)
-        {
-            this.connectionString = connectionString;
-        }
-        private SqlConnection getConnection()
-        {
-            SqlConnection conenction = new SqlConnection(connectionString);
-            return conenction;
-        }
-        public static List<Adres> XMLParser() 
+        //uitlezen bestand
+        private static List<Adres> GMLParser() 
         {
             //loading from file, also able to load from stream
-            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\test.gml");
+            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\CrabAdr.gml");
             XNamespace gml = "http://www.opengis.net/gml";
             XNamespace agiv = "http://www.agiv.be/agiv";
             //Query data 
@@ -67,5 +58,61 @@ namespace DBOEf
             //}
             return adressen;
         }
+        //importeer in databank
+        private string connectionString;
+        public Adresbeheer(string conenctionString)
+        {
+            this.connectionString = connectionString;
+        }
+        private SqlConnection getConnection()
+        {
+            SqlConnection conenction = new SqlConnection(connectionString);
+            return conenction;
+        }
+        //bulk adresdoorgeven
+        public void AddGMLAdressesDB() 
+        {
+            List<Adres> adresses = GMLParser();
+            SqlConnection connection = getConnection();
+            
+            using (SqlCommand command = connection.CreateCommand()) 
+            {
+                connection.Open();
+                SqlTransaction transaction = connection.BeginTransaction();
+                command.Transaction = transaction;
+                try 
+                { 
+
+                }
+                catch (Exception e) 
+                { 
+
+                }
+                finally 
+                {
+                    connection.Close(); 
+                }
+            }
+        }
+        private void AddGMLAdres(Adres adres)
+        {
+            AddGMLStraatnaam(adres.straatnaam);
+            AddGMLLocatie(adres.locatie);
+        }
+        private void AddGMLStraatnaam(Straatnaam straatnaam)
+        {
+            AddGMLGemeente(straatnaam.gemeente);
+        }
+        private void AddGMLGemeente(Gemeente gemeente)
+        {
+        }
+        private void AddGMLLocatie(AdresLocatie locatie)
+        { 
+        }
+        //adres 1 per 1 doorgeven.
+        public void AddAdresDB(Adres adres) 
+        {
+        }
+
     }
 }

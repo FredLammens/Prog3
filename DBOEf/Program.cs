@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DBOEf
 {
@@ -6,7 +7,6 @@ namespace DBOEf
     {
         static void Main(string[] args)
         {
-            Adresbeheer.XMLParser();
         }
     }
 }
