@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -29,7 +28,7 @@ namespace DBOEf
         private static List<Adres> GMLParser()
         {
             //loading from file, also able to load from stream
-            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\CrabAdr.gml");
+            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\test.gml");
             XNamespace gml = "http://www.opengis.net/gml";
             XNamespace agiv = "http://www.agiv.be/agiv";
             //Query data 
@@ -94,7 +93,7 @@ namespace DBOEf
                 connection.Close();
             }
         }
-        private void AddLocaties(DbConnection connection , DbDataAdapter adapter,List<Adres>adresses) 
+        private void AddLocaties(DbConnection connection, DbDataAdapter adapter, List<Adres> adresses)
         {
             string queryLocatie = "SELECT * FROM dbo.adreslocatieSQL";
             DbCommand commandLocatie = sqlFactory.CreateCommand();
@@ -106,15 +105,18 @@ namespace DBOEf
             adapter.InsertCommand = builder.GetInsertCommand();
             DataTable table = new DataTable();
             adapter.Fill(table);
+            DataColumn[] keyColumns = new DataColumn[1]; // primary key voor deze kolom instellen
+            keyColumns[0] = table.Columns["Id"]; //idem
+            table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (!table.Rows.Contains(adres.locatie.ID)) 
+                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.locatie.ID))
                 {
-                DataRow row = table.NewRow();
-                row["Id"] = adres.locatie.ID;
-                row["x"] = adres.locatie.x;
-                row["y"] = adres.locatie.y;
-                table.Rows.Add(row);
+                    DataRow row = table.NewRow();
+                    row["Id"] = adres.locatie.ID;
+                    row["x"] = adres.locatie.x;
+                    row["y"] = adres.locatie.y;
+                    table.Rows.Add(row);
                 }
             }
             adapter.Update(table);
@@ -131,14 +133,17 @@ namespace DBOEf
             adapter.InsertCommand = builder.GetInsertCommand();
             DataTable table = new DataTable();
             adapter.Fill(table);
+            DataColumn[] keyColumns = new DataColumn[1]; // primary key voor deze kolom instellen
+            keyColumns[0] = table.Columns["NIScode"]; //idem
+            table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (!table.Rows.Contains(adres.straatnaam.gemeente.NIScode))
-                { 
-                DataRow row = table.NewRow();
-                row["NIScode"] = adres.straatnaam.gemeente.NIScode;
-                row["gemeentenaam"] = adres.straatnaam.gemeente.gemeentenaam;
-                table.Rows.Add(row);
+                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.straatnaam.gemeente.NIScode))
+                {
+                    DataRow row = table.NewRow();
+                    row["NIScode"] = adres.straatnaam.gemeente.NIScode;
+                    row["gemeentenaam"] = adres.straatnaam.gemeente.gemeentenaam;
+                    table.Rows.Add(row);
                 }
             }
             adapter.Update(table);
@@ -155,15 +160,18 @@ namespace DBOEf
             adapter.InsertCommand = builder.GetInsertCommand();
             DataTable table = new DataTable();
             adapter.Fill(table);
+            DataColumn[] keyColumns = new DataColumn[1]; // primary key voor deze kolom instellen
+            keyColumns[0] = table.Columns["ID"]; //idem
+            table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (!table.Rows.Contains(adres.straatnaam.ID)) 
+                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.straatnaam.ID))
                 {
-                DataRow row = table.NewRow();
-                row["ID"] = adres.straatnaam.ID;
-                row["straatnaam"] = adres.straatnaam.straatnaam;
-                row["NIScode"] = adres.straatnaam.gemeente.NIScode;
-                table.Rows.Add(row);
+                    DataRow row = table.NewRow();
+                    row["ID"] = adres.straatnaam.ID;
+                    row["straatnaam"] = adres.straatnaam.straatnaam;
+                    row["NIScode"] = adres.straatnaam.gemeente.NIScode;
+                    table.Rows.Add(row);
                 }
             }
             adapter.Update(table);
@@ -180,19 +188,22 @@ namespace DBOEf
             adapter.InsertCommand = builder.GetInsertCommand();
             DataTable table = new DataTable();
             adapter.Fill(table);
+            DataColumn[] keyColumns = new DataColumn[1]; // primary key voor deze kolom instellen
+            keyColumns[0] = table.Columns["ID"]; //idem
+            table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (!table.Rows.Contains(adres.ID)) 
+                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.ID))
                 {
-                DataRow row = table.NewRow();
-                row["ID"] = adres.ID;
-                row["straatnaamID"] = adres.straatnaam.ID;
-                row["huisnummer"] = adres.huisnummer;
-                row["appartementnummer"] = adres.appartementnummer;
-                row["busnummer"] = adres.busnummer;
-                row["huisnummerlabel"] = adres.huisnummerlabel;
-                row["adreslocatieID"] = adres.locatie.ID;
-                table.Rows.Add(row);
+                    DataRow row = table.NewRow();
+                    row["ID"] = adres.ID;
+                    row["straatnaamID"] = adres.straatnaam.ID;
+                    row["huisnummer"] = adres.huisnummer;
+                    row["appartementnummer"] = adres.appartementnummer;
+                    row["busnummer"] = adres.busnummer;
+                    row["huisnummerlabel"] = adres.huisnummerlabel;
+                    row["adreslocatieID"] = adres.locatie.ID;
+                    table.Rows.Add(row);
                 }
             }
             adapter.Update(table);
