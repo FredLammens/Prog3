@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Xml.Linq;
 
@@ -24,7 +25,7 @@ namespace DBOEf
             return connection;
         }
         #endregion
-        //uitlezen bestand
+        #region uitlezenbestand
         private static List<Adres> GMLParser()
         {
             //loading from file, also able to load from stream
@@ -63,8 +64,8 @@ namespace DBOEf
             }
             return adressen;
         }
-        //bulk adresdoorgeven
-        #region bulkgmladdresses
+        #endregion
+        #region bulk adresdoorgeven
         public void AddGMLAdressesDB()
         {
             List<Adres> adresses = GMLParser();
@@ -209,10 +210,109 @@ namespace DBOEf
             adapter.Update(table);
         }
         #endregion
-        //adres 1 per 1 doorgeven.
-        public void AddAdresDB(Adres adres)
+        #region adres1per1
+        public void voegAdresToe(Adres adres)
         {
+            DbConnection connection = getConnection();
+            string queryAdres = "INSERT INTO dbo.adresSQL(straatnaamID,huisnummer,appartementnummer,busnummer,huisnummerlabel,adreslocatieID) output INSERTED.ID " +
+                "VALUES(@straatnaamID,@huisnummer,@appartementnummer,@busnummer,@huisnummerlabel,@adreslocatieID)";
+            string queryAdresLocatie = "INSERT INTO dbo.adreslocatieSQL(x,y) output INSERTED.Id " +
+                "VALUES(@x,@y)";
+            using (DbCommand commandAdres = connection.CreateCommand()) //difference between dbcommand and sqlcommand
+            using (DbCommand commandLocatie = connection.CreateCommand())
+            {
+                connection.Open();
+                DbTransaction transaction = connection.BeginTransaction();
+                commandAdres.Transaction = transaction;
+                commandLocatie.Transaction = transaction;
+                try
+                {
+                    #region Adreslocatie toevoegen
+                    //ID
+                    //DbParameter parAdresLocatieID = sqlFactory.CreateParameter();
+                    //parAdresLocatieID.ParameterName = "@Id";
+                    //parAdresLocatieID.DbType = DbType.Int32;
+                    //commandLocatie.Parameters.Add(parAdresLocatieID);
+                    //X
+                    DbParameter parAdresLocatieX = sqlFactory.CreateParameter();
+                    parAdresLocatieX.ParameterName = "@x";
+                    parAdresLocatieX.DbType = DbType.Double;
+                    commandLocatie.Parameters.Add(parAdresLocatieX);
+                    //Y
+                    DbParameter parAdresLocatieY = sqlFactory.CreateParameter();
+                    parAdresLocatieY.ParameterName = "@y";
+                    parAdresLocatieY.DbType = DbType.Double;
+                    commandLocatie.Parameters.Add(parAdresLocatieY);
+                    //
+                    commandLocatie.CommandText = queryAdresLocatie;
+                    //values toevoegen
+                    //commandLocatie.Parameters["@Id"].Value = newLocatieID;
+                    commandLocatie.Parameters["@x"].Value = adres.locatie.x;
+                    commandLocatie.Parameters["@y"].Value = adres.locatie.y;
+                    int newLocatieID = (int)commandLocatie.ExecuteScalar(); // executes statement and add auto primary key
+                    #endregion
+                    #region adres toevoegen
+                    //ID
+                    //DbParameter parID = sqlFactory.CreateParameter();
+                    //parID.ParameterName = "@Id";
+                    //parID.DbType = DbType.Int32;
+                    //commandAdres.Parameters.Add(parID);
+                    //StraatnaamID
+                    DbParameter parNaam = sqlFactory.CreateParameter();
+                    parNaam.ParameterName = "@straatnaamID";
+                    parNaam.DbType = DbType.Int32;
+                    commandAdres.Parameters.Add(parNaam);
+                    //huisnummer
+                    DbParameter parHNummer = sqlFactory.CreateParameter();
+                    parHNummer.ParameterName = "@huisnummer";
+                    parHNummer.DbType = DbType.AnsiString;
+                    commandAdres.Parameters.Add(parHNummer);
+                    //appartementnummer
+                    DbParameter parAppNummer = sqlFactory.CreateParameter();
+                    parAppNummer.ParameterName = "@appartementnummer";
+                    parAppNummer.DbType = DbType.AnsiString;
+                    commandAdres.Parameters.Add(parAppNummer);
+                    //busnummer
+                    DbParameter parBusNr = sqlFactory.CreateParameter();
+                    parBusNr.ParameterName = "@busnummer";
+                    parBusNr.DbType = DbType.AnsiString;
+                    commandAdres.Parameters.Add(parBusNr);
+                    //huisnummerlabel
+                    DbParameter parHNrLabel = sqlFactory.CreateParameter();
+                    parHNrLabel.ParameterName = "@huisnummerlabel";
+                    parHNrLabel.DbType = DbType.AnsiString;
+                    commandAdres.Parameters.Add(parHNrLabel);
+                    //adreslocatieID
+                    //DbParameter parAdresLoc = sqlFactory.CreateParameter();
+                    //parAdresLoc.ParameterName = "@adreslocatieID";
+                    //parAdresLoc.DbType = DbType.Int32;
+                    //commandAdres.Parameters.Add(parAdresLoc);
+                    //
+                    commandAdres.CommandText = queryAdres;
+                    //parameters instellen
+                    commandAdres.Parameters["@straatnaamID"].Value = adres.straatnaam.ID;
+                    commandAdres.Parameters["@huisnummer"].Value = adres.huisnummer;
+                    commandAdres.Parameters["@appartementnummer"].Value = adres.appartementnummer;
+                    commandAdres.Parameters["@busnummer"].Value = adres.busnummer;
+                    commandAdres.Parameters["@huisnummerlabel"].Value = adres.huisnummerlabel;
+                    commandAdres.Parameters["@adreslocatieID"].Value = newLocatieID;
+                    commandAdres.ExecuteScalar(); // executes statement and auto generate key
+                    #endregion
+                    transaction.Commit();
+                }
+                catch (Exception ex)
+                {
+                    transaction.Rollback();
+                    Console.WriteLine(ex);
+                }
+                finally 
+                {
+                    connection.Close();
+                }
+            }
+
         }
+        #endregion
 
     }
 }
