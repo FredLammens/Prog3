@@ -6,7 +6,7 @@ namespace LINQ
     {
         public static List<Address> GetAllAddresses()
         {
-            return new List<Address>() 
+            return new List<Address>()
             {
                 new Address{ID = 1 , AddressLine ="Adresseken" },
                 new Address{ID = 2 , AddressLine ="Adresseken1" },

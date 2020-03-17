@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DBOEf
+﻿namespace DBOEf
 {
     class Gemeente
     {
-        public Gemeente(int NIScode , string gemeentenaam )
+        public Gemeente(int NIScode, string gemeentenaam)
         {
             this.NIScode = NIScode;
             this.gemeentenaam = gemeentenaam;

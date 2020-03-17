@@ -24,7 +24,7 @@ namespace LINQ
             }
             System.Console.WriteLine("------------------------------------");
         }
-        public void groupJoin() 
+        public void groupJoin()
         {
             System.Console.WriteLine("------------------------------------");
             var GroupJoinMs = Department.GetAllDepartments().GroupJoin(

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DBOEf
+﻿namespace DBOEf
 {
     class Straatnaam
     {
-        public Straatnaam(int ID,string straatnaam , Gemeente gemeente)
+        public Straatnaam(int ID, string straatnaam, Gemeente gemeente)
         {
             this.ID = ID;
             this.straatnaam = straatnaam;

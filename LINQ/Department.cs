@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace LINQ
 {
@@ -9,7 +7,7 @@ namespace LINQ
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public static List<Department> GetAllDepartments() 
+        public static List<Department> GetAllDepartments()
         {
             return new List<Department>()
             {

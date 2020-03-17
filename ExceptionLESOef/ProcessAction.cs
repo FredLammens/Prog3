@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace ExceptionLESOef
 {
     class ProcessAction
     {
         public ProcessAction(List<Person> persons) => (this.persons) = (persons);
-        public static void ShowExceptionDetails(Exception e) 
+        public static void ShowExceptionDetails(Exception e)
         {
             Console.WriteLine("-----------");
             Console.WriteLine($"Type: {e.GetType()}");
@@ -18,7 +17,7 @@ namespace ExceptionLESOef
 
         }
         private List<Person> persons { get; set; }
-        public void doStuff(string actie) 
+        public void doStuff(string actie)
         {
             try
             {
@@ -49,7 +48,7 @@ namespace ExceptionLESOef
                 Console.WriteLine(ex.Message);
 
             }
-            finally 
+            finally
             {
                 Console.WriteLine("Time to quit");
             }

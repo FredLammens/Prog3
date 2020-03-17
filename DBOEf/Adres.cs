@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace DBOEf
+﻿namespace DBOEf
 {
     class Adres
     {
-        public Adres(int ID, Straatnaam straatnaam, string appartementnummer, string busnummer,string huisnummer,
-            string huisnummerlabel, int locatieID, double x, double y )
+        public Adres(int ID, Straatnaam straatnaam, string appartementnummer, string busnummer, string huisnummer,
+            string huisnummerlabel, int locatieID, double x, double y)
         {
             this.ID = ID;
             this.straatnaam = straatnaam;

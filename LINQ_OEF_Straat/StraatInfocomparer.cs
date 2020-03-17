@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LINQ_OEF_Straat
 {
@@ -13,7 +12,7 @@ namespace LINQ_OEF_Straat
             return false;
         }
 
-        public int GetHashCode( StraatInfo obj)
+        public int GetHashCode(StraatInfo obj)
         {
             return obj.straat.GetHashCode();
         }
