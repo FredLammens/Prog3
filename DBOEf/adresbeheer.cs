@@ -28,7 +28,7 @@ namespace DBOEf
         private static List<Adres> GMLParser()
         {
             //loading from file, also able to load from stream
-            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\test.gml");
+            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\CrabAdr.gml");
             XNamespace gml = "http://www.opengis.net/gml";
             XNamespace agiv = "http://www.agiv.be/agiv";
             //Query data 
@@ -110,7 +110,7 @@ namespace DBOEf
             table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.locatie.ID))
+                if (!table.Rows.Contains(adres.locatie.ID))
                 {
                     DataRow row = table.NewRow();
                     row["Id"] = adres.locatie.ID;
@@ -138,7 +138,7 @@ namespace DBOEf
             table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.straatnaam.gemeente.NIScode))
+                if (!table.Rows.Contains(adres.straatnaam.gemeente.NIScode))
                 {
                     DataRow row = table.NewRow();
                     row["NIScode"] = adres.straatnaam.gemeente.NIScode;
@@ -165,7 +165,7 @@ namespace DBOEf
             table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.straatnaam.ID))
+                if (!table.Rows.Contains(adres.straatnaam.ID))
                 {
                     DataRow row = table.NewRow();
                     row["ID"] = adres.straatnaam.ID;
@@ -193,7 +193,7 @@ namespace DBOEf
             table.PrimaryKey = keyColumns; //idem
             foreach (Adres adres in adresses)
             {
-                if (table.Rows.Count == 0 || !table.Rows.Contains(adres.ID))
+                if (!table.Rows.Contains(adres.ID))
                 {
                     DataRow row = table.NewRow();
                     row["ID"] = adres.ID;
