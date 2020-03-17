@@ -2,6 +2,7 @@
 {
     class AdresLocatie
     {
+        private static int counter = 0;
         public AdresLocatie(int ID, double x, double y)
         {
             this.ID = ID;
@@ -10,6 +11,8 @@
         }
         public AdresLocatie(double x, double y)
         {
+            counter++;
+            this.ID = counter;
             this.x = x;
             this.y = y;
         }
