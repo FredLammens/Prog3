@@ -70,19 +70,20 @@ namespace DBOEf
         }
         public List<Straatnaam> getStraatnamen(string gemeentenaam) 
         {
+            List<Straatnaam> straatnamen = new List<Straatnaam>();
             DbConnection connection = getConnection();
-            string query = "select dbo.straatnaamSQL.*"+
-                             "from dbo.straatnaamSQL"+
-                             "inner join dbo.gemeenteSQL"+
-                             "on dbo.straatnaamSQL.NIScode = dbo.gemeenteSQL.NIScode"+
-                             "where dbo.gemeenteSQL.gemeentenaam = @gemeentenaam"+
-                             "order by dbo.straatnaamSQL.straatnaam ASC; ";
+            string query = "select dbo.straatnaamSQL.* "+
+                             "from dbo.straatnaamSQL "+
+                             "inner join dbo.gemeenteSQL "+
+                             "on dbo.straatnaamSQL.NIScode = dbo.gemeenteSQL.NIScode "+
+                             "where dbo.gemeenteSQL.gemeentenaam = @gemeentenaam "+
+                             "order by dbo.straatnaamSQL.straatnaam ASC;";
             using (DbCommand command = connection.CreateCommand())
             {
                 command.CommandText = query;
                 DbParameter paramID = sqlFactory.CreateParameter();
                 paramID.ParameterName = "@gemeentenaam";
-                paramID.DbType = DbType.Int32;
+                paramID.DbType = DbType.String;
                 paramID.Value = gemeentenaam;
                 command.Parameters.Add(paramID);
                 connection.Open();
@@ -90,11 +91,10 @@ namespace DBOEf
                 {
 
                     DbDataReader reader = command.ExecuteReader();
-                    List<Straatnaam> straatnamen = new List<Straatnaam>();
                     while (reader.Read()) 
                     {
-                    Gemeente gemeente = new Gemeente((int)reader["NIScode"], (string)reader["gemeentenaam"]);
-                    Straatnaam straatnaam = new Straatnaam((int)reader["straatnaamID"], (string)reader["straatnaam"], gemeente);
+                    Gemeente gemeente = new Gemeente((int)reader["NIScode"], gemeentenaam);
+                    Straatnaam straatnaam = new Straatnaam((int)reader["ID"], (string)reader["straatnaam"],gemeente);
                     straatnamen.Add(straatnaam);
                     }
                     reader.Close();
