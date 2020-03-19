@@ -71,12 +71,12 @@ namespace DBOEf
         public List<Straatnaam> getStraatnamen(string gemeentenaam) 
         {
             DbConnection connection = getConnection();
-            string query = @"select dbo.straatnaamSQL.*
-                             from dbo.straatnaamSQL
-                             inner join dbo.gemeenteSQL
-                             on dbo.straatnaamSQL.NIScode = dbo.gemeenteSQL.NIScode
-                             where dbo.gemeenteSQL.gemeentenaam = @gemeentenaam
-                             order by dbo.straatnaamSQL.straatnaam ASC; ";
+            string query = "select dbo.straatnaamSQL.*"+
+                             "from dbo.straatnaamSQL"+
+                             "inner join dbo.gemeenteSQL"+
+                             "on dbo.straatnaamSQL.NIScode = dbo.gemeenteSQL.NIScode"+
+                             "where dbo.gemeenteSQL.gemeentenaam = @gemeentenaam"+
+                             "order by dbo.straatnaamSQL.straatnaam ASC; ";
             using (DbCommand command = connection.CreateCommand())
             {
                 command.CommandText = query;
