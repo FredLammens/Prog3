@@ -17,7 +17,7 @@
 
         public override string ToString()
         {
-            return $"{straatnaam} locatie = {locatie}, ID = {ID}, " +
+            return $"{straatnaam}locatie = [{locatie.x}, {locatie.y}], ID = {ID}, " +
                 $"appartementnummer = {appartementnummer}, busnummer = {busnummer}, " +
                 $"huisnummer = {huisnummer}, huisnummerlabel = {huisnummerlabel}";
         }

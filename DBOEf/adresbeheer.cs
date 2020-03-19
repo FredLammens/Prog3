@@ -5,7 +5,8 @@ using System.Data.Common;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Xml.Linq;
-
+// counter voor adres maken
+// counter implementeren . executeScalar eindleijk fucking weg
 namespace DBOEf
 {
     class AdresBeheer
@@ -29,14 +30,14 @@ namespace DBOEf
         private static List<Adres> GMLParser()
         {
             //loading from file, also able to load from stream
-            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\CrabAdr.gml");
+            XDocument doc = XDocument.Load(@"C:\Users\Biebem\Downloads\test.gml");
             XNamespace gml = "http://www.opengis.net/gml";
             XNamespace agiv = "http://www.agiv.be/agiv";
             //Query data 
             var query = doc.Descendants(agiv + "CrabAdr")
                 .Select(e => new
                 {
-                    id = (int)e.Element(agiv + "ID"), //adresID
+                    id = (int)e.Element(agiv + "ID"), //adresID 
                     straatnaamid = (int)e.Element(agiv + "STRAATNMID"),
                     straatnaam = (string)e.Element(agiv + "STRAATNM"),
                     huisnummer = (string)e.Element(agiv + "HUISNR"),
@@ -49,14 +50,13 @@ namespace DBOEf
                     herkomst = (string)e.Element(agiv + "HERKOMST"), //wordt wss niet gebruikt.
                     coord = e.Descendants(gml + "coord").Select(f => new { x = (double)f.Element(gml + "X"), y = (double)f.Element(gml + "Y") })
                 });
-            //aanmaken obejcten
+            //aanmaken objecten
             List<Adres> adressen = new List<Adres>();
             double[] coord = new double[2];
             foreach (var e in query)
             {
                 double x = e.coord.ElementAt(0).x;
                 double y = e.coord.ElementAt(0).y;
-                //AdresLocatie locatie = new AdresLocatie(x,y); //maakt lijst van object(x,y) aan en roept hierop de x en y
                 Gemeente gemeente = new Gemeente(e.NIScode, e.gemeente);
                 Straatnaam straatnaam = new Straatnaam(e.straatnaamid, e.straatnaam, gemeente);
                 Adres adres = new Adres(e.id, straatnaam, e.appartementnummer, e.busnummer, e.huisnummer, e.huisnummerlabel, e.postcode, x, y);
@@ -96,7 +96,7 @@ namespace DBOEf
         }
         private void AddLocaties(DbConnection connection, DbDataAdapter adapter, List<Adres> adresses)
         {
-            string queryLocatie = "SELECT * FROM dbo.adreslocatieSQL";
+            string queryLocatie = "SELECT * FROM dbo.adresLocatieTest";
             DbCommand commandLocatie = sqlFactory.CreateCommand();
             commandLocatie.CommandText = queryLocatie;
             commandLocatie.Connection = connection;
@@ -124,7 +124,7 @@ namespace DBOEf
         }
         private void AddGemeente(DbConnection connection, DbDataAdapter adapter, List<Adres> adresses)
         {
-            string queryGemeente = "SELECT * FROM dbo.gemeenteSQL";
+            string queryGemeente = "SELECT * FROM dbo.gemeenteTest";
             DbCommand commandGemeente = sqlFactory.CreateCommand();
             commandGemeente.CommandText = queryGemeente;
             commandGemeente.Connection = connection;
@@ -151,7 +151,7 @@ namespace DBOEf
         }
         private void AddStraatnaam(DbConnection connection, DbDataAdapter adapter, List<Adres> adresses)
         {
-            string queryStraatnaam = "SELECT * FROM dbo.straatnaamSQL";
+            string queryStraatnaam = "SELECT * FROM dbo.straatnaamTest";
             DbCommand commandStraatnaam = sqlFactory.CreateCommand();
             commandStraatnaam.CommandText = queryStraatnaam;
             commandStraatnaam.Connection = connection;
@@ -179,7 +179,7 @@ namespace DBOEf
         }
         private void AddAdres(DbConnection connection, DbDataAdapter adapter, List<Adres> adresses)
         {
-            string queryAdres = "SELECT * FROM dbo.adresSQL";
+            string queryAdres = "SELECT * FROM dbo.AdresTest";
             DbCommand commandAdres = sqlFactory.CreateCommand();
             commandAdres.CommandText = queryAdres;
             commandAdres.Connection = connection;
@@ -209,19 +209,21 @@ namespace DBOEf
             }
             adapter.Update(table);
         }
+
         #endregion
         #region adres1per1
         public void voegAdresToe(Adres adres)
         {
             DbConnection connection = getConnection();
-            string queryAdres = "INSERT INTO dbo.adresSQL(straatnaamID,huisnummer,appartementnummer,busnummer,huisnummerlabel,adreslocatieID) output INSERTED.ID " +
-                "VALUES(@straatnaamID,@huisnummer,@appartementnummer,@busnummer,@huisnummerlabel,@adreslocatieID)";
-            string queryAdresLocatie = "INSERT INTO dbo.adreslocatieSQL(x,y) output INSERTED.Id " +
-                "VALUES(@x,@y)";
+            string queryAdres = "INSERT INTO dbo.AdresTest(ID,straatnaamID,huisnummer,appartementnummer,busnummer,huisnummerlabel,adreslocatieID) output INSERTED.ID " +
+                "VALUES(@ID,@straatnaamID,@huisnummer,@appartementnummer,@busnummer,@huisnummerlabel,@adreslocatieID)";
+            string queryAdresLocatie = "INSERT INTO dbo.adreslocatieTest(Id,x,y) output INSERTED.Id " +
+                "VALUES(@Id,@x,@y)";
             using (DbCommand commandAdres = connection.CreateCommand()) //difference between dbcommand and sqlcommand
             using (DbCommand commandLocatie = connection.CreateCommand())
             {
                 connection.Open();
+                int newLocatieID = NewLocatieID(connection);
                 DbTransaction transaction = connection.BeginTransaction();
                 commandAdres.Transaction = transaction;
                 commandLocatie.Transaction = transaction;
@@ -229,10 +231,10 @@ namespace DBOEf
                 {
                     #region Adreslocatie toevoegen
                     //ID
-                    //DbParameter parAdresLocatieID = sqlFactory.CreateParameter();
-                    //parAdresLocatieID.ParameterName = "@Id";
-                    //parAdresLocatieID.DbType = DbType.Int32;
-                    //commandLocatie.Parameters.Add(parAdresLocatieID);
+                    DbParameter parAdresLocatieID = sqlFactory.CreateParameter();
+                    parAdresLocatieID.ParameterName = "@Id";
+                    parAdresLocatieID.DbType = DbType.Int32;
+                    commandLocatie.Parameters.Add(parAdresLocatieID);
                     //X
                     DbParameter parAdresLocatieX = sqlFactory.CreateParameter();
                     parAdresLocatieX.ParameterName = "@x";
@@ -246,17 +248,17 @@ namespace DBOEf
                     //
                     commandLocatie.CommandText = queryAdresLocatie;
                     //values toevoegen
-                    //commandLocatie.Parameters["@Id"].Value = newLocatieID;
+                    commandLocatie.Parameters["@Id"].Value = newLocatieID;
                     commandLocatie.Parameters["@x"].Value = adres.locatie.x;
                     commandLocatie.Parameters["@y"].Value = adres.locatie.y;
-                    int newLocatieID = (int)commandLocatie.ExecuteScalar(); // executes statement and add auto primary key
+                    commandLocatie.ExecuteNonQuery();
                     #endregion
                     #region adres toevoegen
                     //ID
-                    //DbParameter parID = sqlFactory.CreateParameter();
-                    //parID.ParameterName = "@Id";
-                    //parID.DbType = DbType.Int32;
-                    //commandAdres.Parameters.Add(parID);
+                    DbParameter parID = sqlFactory.CreateParameter();
+                    parID.ParameterName = "@Id";
+                    parID.DbType = DbType.Int32;
+                    commandAdres.Parameters.Add(parID);
                     //StraatnaamID
                     DbParameter parNaam = sqlFactory.CreateParameter();
                     parNaam.ParameterName = "@straatnaamID";
@@ -283,20 +285,21 @@ namespace DBOEf
                     parHNrLabel.DbType = DbType.AnsiString;
                     commandAdres.Parameters.Add(parHNrLabel);
                     //adreslocatieID
-                    //DbParameter parAdresLoc = sqlFactory.CreateParameter();
-                    //parAdresLoc.ParameterName = "@adreslocatieID";
-                    //parAdresLoc.DbType = DbType.Int32;
-                    //commandAdres.Parameters.Add(parAdresLoc);
+                    DbParameter parAdresLoc = sqlFactory.CreateParameter();
+                    parAdresLoc.ParameterName = "@adreslocatieID";
+                    parAdresLoc.DbType = DbType.Int32;
+                    commandAdres.Parameters.Add(parAdresLoc);
                     //
                     commandAdres.CommandText = queryAdres;
                     //parameters instellen
+                    commandAdres.Parameters["@ID"].Value = adres.ID;
                     commandAdres.Parameters["@straatnaamID"].Value = adres.straatnaam.ID;
                     commandAdres.Parameters["@huisnummer"].Value = adres.huisnummer;
                     commandAdres.Parameters["@appartementnummer"].Value = adres.appartementnummer;
                     commandAdres.Parameters["@busnummer"].Value = adres.busnummer;
                     commandAdres.Parameters["@huisnummerlabel"].Value = adres.huisnummerlabel;
                     commandAdres.Parameters["@adreslocatieID"].Value = newLocatieID;
-                    commandAdres.ExecuteScalar(); // executes statement and auto generate key
+                    commandAdres.ExecuteNonQuery();
                     #endregion
                     transaction.Commit();
                 }
@@ -310,7 +313,22 @@ namespace DBOEf
                     connection.Close();
                 }
             }
-
+        }
+        #endregion
+        #region hulpmethods
+        private int NewLocatieID(DbConnection connection) 
+        {
+            string query = "SELECT COUNT(dbo.adresLocatieTest.Id) as count FROM dbo.adresLocatieTest";
+            int toReturn = 0;
+            using (DbCommand command = connection.CreateCommand()) 
+            {
+                command.CommandText = query;
+                DbDataReader reader = command.ExecuteReader();
+                reader.Read();
+                toReturn = (int)reader["count"];
+                reader.Close();
+            }
+            return toReturn + 1;
         }
         #endregion
 
