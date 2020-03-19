@@ -21,8 +21,6 @@ namespace DBOEf
             connection.ConnectionString = connectionString;
             return connection;
         }
-
-
         public Adres GetAdres(int ID)
         {
             DbConnection connection = getConnection();
@@ -50,9 +48,9 @@ namespace DBOEf
                     
                     DbDataReader reader = command.ExecuteReader();
                     reader.Read();
-                    Gemeente Test = new Gemeente((int)reader["NIScode"], (string) reader["gemeentenaam"]);
-                    Straatnaam Testie = new Straatnaam((int)reader["straatnaamID"],(string)reader["straatnaam"], Test);
-                    Adres adres = new Adres((int)reader["ID"], Testie, (string)reader["appartementnummer"],
+                    Gemeente gemeente = new Gemeente((int)reader["NIScode"], (string) reader["gemeentenaam"]);
+                    Straatnaam straatnaam = new Straatnaam((int)reader["straatnaamID"],(string)reader["straatnaam"], gemeente);
+                    Adres adres = new Adres((int)reader["ID"], straatnaam, (string)reader["appartementnummer"],
                         (string)reader["busnummer"], (string)reader["huisnummer"],
                         (string)reader["huisnummerlabel"], 9120, (double)reader["x"], (double)reader["y"]
                         );
@@ -68,13 +66,50 @@ namespace DBOEf
                 {
                     connection.Close();
                 }
-
             }
-
         }
-
-        public List<Straatnaam> getStraatnamen() 
+        public List<Straatnaam> getStraatnamen(string gemeentenaam) 
         {
+            DbConnection connection = getConnection();
+            string query = @"select dbo.straatnaamSQL.*
+                             from dbo.straatnaamSQL
+                             inner join dbo.gemeenteSQL
+                             on dbo.straatnaamSQL.NIScode = dbo.gemeenteSQL.NIScode
+                             where dbo.gemeenteSQL.gemeentenaam = @gemeentenaam
+                             order by dbo.straatnaamSQL.straatnaam ASC; ";
+            using (DbCommand command = connection.CreateCommand())
+            {
+                command.CommandText = query;
+                DbParameter paramID = sqlFactory.CreateParameter();
+                paramID.ParameterName = "@gemeentenaam";
+                paramID.DbType = DbType.Int32;
+                paramID.Value = gemeentenaam;
+                command.Parameters.Add(paramID);
+                connection.Open();
+                try
+                {
+
+                    DbDataReader reader = command.ExecuteReader();
+                    List<Straatnaam> straatnamen = new List<Straatnaam>();
+                    while (reader.Read()) 
+                    {
+                    Gemeente gemeente = new Gemeente((int)reader["NIScode"], (string)reader["gemeentenaam"]);
+                    Straatnaam straatnaam = new Straatnaam((int)reader["straatnaamID"], (string)reader["straatnaam"], gemeente);
+                    straatnamen.Add(straatnaam);
+                    }
+                    reader.Close();
+                    return straatnamen;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return null;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
         }
     }
 }
