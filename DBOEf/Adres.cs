@@ -3,7 +3,7 @@
     class Adres
     {
         public Adres(int ID, Straatnaam straatnaam, string appartementnummer, string busnummer, string huisnummer,
-            string huisnummerlabel, int postcode, double x, double y)
+            string huisnummerlabel, int locatieID, double x, double y)
         {
             this.ID = ID;
             this.straatnaam = straatnaam;
@@ -11,8 +11,7 @@
             this.busnummer = busnummer;
             this.huisnummer = huisnummer;
             this.huisnummerlabel = huisnummerlabel;
-            this.locatie = new AdresLocatie(x, y);
-            this.postcode = postcode;
+            this.locatie = new AdresLocatie(locatieID,x, y);
         }
 
         public override string ToString()

@@ -52,7 +52,7 @@ namespace DBOEf
                     Straatnaam straatnaam = new Straatnaam((int)reader["straatnaamID"],(string)reader["straatnaam"], gemeente);
                     Adres adres = new Adres((int)reader["ID"], straatnaam, (string)reader["appartementnummer"],
                         (string)reader["busnummer"], (string)reader["huisnummer"],
-                        (string)reader["huisnummerlabel"], 9120, (double)reader["x"], (double)reader["y"]
+                        (string)reader["huisnummerlabel"], (int)reader["adreslocatieID"], (double)reader["x"], (double)reader["y"]
                         );
                     reader.Close();
                     return adres;
@@ -83,7 +83,7 @@ namespace DBOEf
                 command.CommandText = query;
                 DbParameter paramID = sqlFactory.CreateParameter();
                 paramID.ParameterName = "@gemeentenaam";
-                paramID.DbType = DbType.String;
+                paramID.DbType = DbType.AnsiString;
                 paramID.Value = gemeentenaam;
                 command.Parameters.Add(paramID);
                 connection.Open();
@@ -99,6 +99,56 @@ namespace DBOEf
                     }
                     reader.Close();
                     return straatnamen;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex);
+                    return null;
+                }
+                finally
+                {
+                    connection.Close();
+                }
+            }
+        }
+        public List<Adres> getAdressenStraat(int straatnaamId)
+        {
+            List<Adres> adressen = new List<Adres>();
+            DbConnection connection = getConnection();
+            string query = "SELECT dbo.adresSql.*, dbo.straatnaamSQL.straatnaam, dbo.straatnaamSQL.NIScode, dbo.gemeenteSQL.gemeentenaam, dbo.adreslocatieSQL.x,dbo.adreslocatieSQL.y " +
+                            "FROM adresSql " +
+                            "JOIN dbo.straatnaamSQL " +
+                            "ON dbo.adresSQL.straatnaamID = dbo.straatnaamSQL.ID "+
+                            "JOIN dbo.gemeenteSQL " +
+                            "ON dbo.straatnaamSQL.NIScode = dbo.gemeenteSQL.NIScode "+
+                            "JOIN dbo.adreslocatieSQL "+
+                            "ON dbo.adresSQL.adreslocatieID = dbo.adreslocatieSQL.Id "+
+                            "WHERE dbo.straatnaamSQL.ID = @straatnaamId; ";
+            using (DbCommand command = connection.CreateCommand())
+            {
+                command.CommandText = query;
+                DbParameter paramID = sqlFactory.CreateParameter();
+                paramID.ParameterName = "@straatnaamId";
+                paramID.DbType = DbType.Int32;
+                paramID.Value = straatnaamId;
+                command.Parameters.Add(paramID);
+                connection.Open();
+                try
+                {
+
+                    DbDataReader reader = command.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Gemeente gemeente = new Gemeente((int)reader["NIScode"], (string)reader["gemeentenaam"]);
+                        Straatnaam straatnaam = new Straatnaam((int)reader["straatnaamID"], (string)reader["straatnaam"], gemeente);
+                        Adres adres = new Adres((int)reader["ID"], straatnaam, (string)reader["appartementnummer"],
+                            (string)reader["busnummer"], (string)reader["huisnummer"],
+                            (string)reader["huisnummerlabel"], (int)reader["adreslocatieID"], (double)reader["x"], (double)reader["y"]
+                            );
+                        adressen.Add(adres);
+                    }
+                    reader.Close();
+                    return adressen;
                 }
                 catch (Exception ex)
                 {

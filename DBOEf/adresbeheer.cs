@@ -59,7 +59,7 @@ namespace DBOEf
                 double y = e.coord.ElementAt(0).y;
                 Gemeente gemeente = new Gemeente(e.NIScode, e.gemeente);
                 Straatnaam straatnaam = new Straatnaam(e.straatnaamid, e.straatnaam, gemeente);
-                Adres adres = new Adres(e.id, straatnaam, e.appartementnummer, e.busnummer, e.huisnummer, e.huisnummerlabel, e.postcode, x, y);
+                Adres adres = new Adres(e.id, straatnaam, e.appartementnummer, e.busnummer, e.huisnummer, e.huisnummerlabel, -1, x, y);
                 adressen.Add(adres);
             }
             return adressen;
